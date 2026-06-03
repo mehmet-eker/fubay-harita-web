@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import {
-  Phone, MapPin, ArrowRight, ArrowLeft, ChevronDown, Menu, X,
+  Phone, Mail, MapPin, ArrowRight, ArrowLeft, ChevronDown, Menu, X,
   Plane, Mountain, Ruler, Layers,
   Award, Clock, Users, ShieldCheck, Star, Navigation, Instagram,
 } from "lucide-react";
@@ -27,25 +27,26 @@ const MAPS_URL = "https://www.google.com/maps/place/Fubay+Harita+M%C3%BChendisli
 const INSTAGRAM_URL = "https://www.instagram.com/fubayharita/";
 const ADDRESS = "Çamlık, Efes Sk. Gürsoy İş Merkezi No:33-35 Kat:2 D:5, 34885 Çekmeköy/İstanbul";
 const COMPANY_NAME = "FUBAY HARİTA MÜHENDİSLİK VE DRONE HİZMETLERİ TİC. LTD. ŞTİ.";
+const MAIL = "fubayharita@gmail.com";
 
 const HERO_SLIDES = [
   {
     image: hero1,
-    eyebrow: "Drone ile Hassas Ölçüm",
+    eyebrow: "RTK'lı İHA ile Hassas Ölçüm",
     headline: ["Gökyüzünden", "milimetrik kesinlik"],
-    sub: "Saatler süren arazi çalışmasını, tek bir uçuşla kanıta dönüştürüyoruz. İstanbul'un her şantiyesinde, her parselinde.",
+    sub: "Saatler süren arazi çalışmasını tek bir uçuşa indiriyoruz. Santimetrik doğrulukta RTK verisiyle İstanbul'un her şantiyesinde, her parselinde.",
   },
   {
     image: hero2,
-    eyebrow: "Ortofoto & Halihazır Harita",
-    headline: ["Araziniz,", "santimine kadar"],
-    sub: "1/1000 ve 1/500 ölçekli üretimde, kurum onayına hazır CAD ve GIS çıktıları. Sürpriz revizyon yok.",
+    eyebrow: "Ortofoto Haritalar & 3B Modeller",
+    headline: ["Araziniz,", "üç boyutlu kanıt"],
+    sub: "Koordinatlı ortofoto haritalar ve gerçeğe en yakın 3B modeller. Kurum onayına hazır CAD ve GIS çıktıları — sürpriz revizyon olmadan.",
   },
   {
     image: hero3,
-    eyebrow: "Kadastro & İmar",
-    headline: ["Mevzuata uygun,", "zamanında teslim"],
-    sub: "Tapu, kadastro ve belediye süreçlerinde 15 yıllık saha tecrübesi. Dosyanız ilk seferde geçsin diye buradayız.",
+    eyebrow: "Hafriyat & Kübaj Hesapları",
+    headline: ["Hacim raporunuz,", "aynı gün teslim"],
+    sub: "Drone tabanlı kübaj hesaplarıyla ihtilafsız hakediş belgesi üretiyoruz. Şantiyeden çıkmadan faturanız hazır.",
   },
 ];
 
@@ -64,10 +65,12 @@ const STATS = [
 ];
 
 const REVIEWS = [
-  { name: "Mehmet K.", role: "İnşaat Şefi, Çekmeköy", text: "Şantiyemizin hacim raporlarını bir günde teslim ettiler. Hakediş süreci ilk kez bu kadar sorunsuz ilerledi.", rating: 5 },
-  { name: "Ayşe D.", role: "Mimar, Üsküdar", text: "Halihazır harita ihtiyacımız çok aciliydi. Hem belediye onayını aldılar hem de süreç boyunca tek bir saniye bizi beklemediler.", rating: 5 },
-  { name: "Cem A.", role: "Müteahhit, Çekmeköy", text: "Drone ortofotoları sayesinde müşteriye projeyi anlatmak çok kolaylaştı. Profesyonel ve dakik bir ekip.", rating: 5 },
-  { name: "Selin Y.", role: "Arazi Sahibi", text: "Sınır anlaşmazlığımızı yıllardır çözemiyorduk. Fubay ekibi haftasında raporu hazırladı, dava lehimize sonuçlandı.", rating: 5 },
+  { name: "Mehmet K.", role: "İnşaat Şefi, Çekmeköy", text: "Üç aylık hafriyat sürecini tek bir drone ölçümüyle raporladılar. Kübaj raporu mahkemede delil olarak kabul edildi, ihtilafsız teslim ettik. Başka firmayı düşünemem.", rating: 5 },
+  { name: "Ayşe D.", role: "Mimar, Üsküdar", text: "Acil ortofoto talebimizi 48 saat içinde karşıladılar. Belediye dosyamız ilk sunumda onaylandı. Bu hızı ve kaliteyi aynı anda sunan başka bir firma görmedim.", rating: 5 },
+  { name: "Cem A.", role: "Müteahhit, Maltepe", text: "Büyük konut projemizin 3B modelini aldık. Müşteri sunumunda rakiplerimizden fark attık. Ekip hem teknik hem iletişim açısından A sınıfı — kesinlikle referans firmamız oldu.", rating: 5 },
+  { name: "Selin Y.", role: "Arazi Sahibi, Gebze", text: "20 yıllık kadastro anlaşmazlığımızı 5 günde raporladılar. Mahkeme bilirkişisi bile raporun kalitesini takdirle karşıladı. Dava lehimize kesinleşti.", rating: 5 },
+  { name: "Tarık B.", role: "Maden Sahası Yöneticisi", text: "Stok ölçümlerimizi artık yalnızca Fubay ile yaptırıyoruz. Hassasiyet ve teslim hızı açısından sektörde gördüğüm en iyi ekip. İkinci bir tercihim yok.", rating: 5 },
+  { name: "Zeynep C.", role: "Proje Müdürü, Ataşehir", text: "RTK drone ölçümü sayesinde imar planı revizyonumuzu aylarca kısalttık. Her aşamada yanımızdaydılar, tek kuruş ek ücret talep etmediler. Tam anlamıyla güvenilir bir ortak.", rating: 5 },
 ];
 
 const HOURS = [
@@ -162,26 +165,34 @@ function Header() {
 function HeroCarousel() {
   const [i, setI] = useState(0);
   const n = HERO_SLIDES.length;
+
+  /* timeout resets on every slide change → timer always restarts fresh */
   useEffect(() => {
-    const t = setInterval(() => setI(p => (p + 1) % n), 6500);
-    return () => clearInterval(t);
-  }, [n]);
+    const t = setTimeout(() => setI(p => (p + 1) % n), 7000);
+    return () => clearTimeout(t);
+  }, [i, n]);
+
   const slide = HERO_SLIDES[i];
   return (
     <section className="relative h-[100svh] min-h-[640px] w-full overflow-hidden">
-      <AnimatePresence mode="sync">
+      {/* All images always mounted – crossfade via animated opacity */}
+      {HERO_SLIDES.map((s, k) => (
         <motion.div
-          key={i}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          key={k}
+          animate={{ opacity: k === i ? 1 : 0 }}
           transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
           className="absolute inset-0"
+          style={{ zIndex: k === i ? 1 : 0 }}
         >
-          <img src={slide.image} alt="" className="kenburns absolute inset-0 h-full w-full object-cover" />
+          <img
+            src={s.image}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ animation: k === i ? "kenburns 9s ease-out forwards" : "none" }}
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/70" />
         </motion.div>
-      </AnimatePresence>
+      ))}
 
       <div className="relative z-10 mx-auto flex h-full max-w-7xl flex-col justify-end px-5 pb-24 pt-32 text-[color:var(--cream)] lg:px-8 lg:pb-32">
         <AnimatePresence mode="wait">
@@ -202,8 +213,11 @@ function HeroCarousel() {
             </h1>
             <p className="mt-6 max-w-xl text-lg text-white/85 sm:text-xl">{slide.sub}</p>
             <div className="mt-9 flex flex-wrap gap-3">
-              <a href={`tel:${PHONE_TEL}`} className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--amber)] px-6 py-3.5 text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--amber-deep)] hover:text-[color:var(--cream)]">
-                Ücretsiz Keşif İste <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              <a
+                href={`tel:${PHONE_TEL}`}
+                className="group inline-flex items-center gap-2 rounded-full bg-[color:var(--amber)] px-6 py-3.5 text-base font-semibold text-[color:var(--ink)] transition hover:bg-[color:var(--amber-deep)] hover:text-[color:var(--cream)]"
+              >
+                Randevu Al <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </a>
               <a href="#hizmetler" className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/5 px-6 py-3.5 text-base font-semibold backdrop-blur hover:bg-white/15">
                 Hizmetleri Gör
@@ -215,10 +229,20 @@ function HeroCarousel() {
         <div className="mt-12 flex items-center justify-between">
           <div className="flex gap-2">
             {HERO_SLIDES.map((_, k) => (
-              <button key={k} onClick={() => setI(k)} aria-label={`Slide ${k + 1}`}
+              <button
+                key={k}
+                onClick={() => setI(k)}
+                aria-label={`Slide ${k + 1}`}
                 className="h-1.5 overflow-hidden rounded-full bg-white/30"
-                style={{ width: k === i ? 56 : 24, transition: "width .5s" }}>
-                <span className={`block h-full bg-[color:var(--amber)] ${k === i ? "w-full" : "w-0"}`} style={{ transition: "width 6.5s linear" }} />
+                style={{ width: k === i ? 56 : 24, transition: "width .5s" }}
+              >
+                <span
+                  className="block h-full bg-[color:var(--amber)]"
+                  style={{
+                    width: k === i ? "100%" : "0%",
+                    transition: k === i ? "width 6.5s linear" : "none",
+                  }}
+                />
               </button>
             ))}
           </div>
@@ -475,6 +499,13 @@ function Visit() {
               <a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="text-muted-foreground hover:text-foreground">@fubayharita</a>
             </div>
           </div>
+          <div className="mt-6 flex items-start gap-4">
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[color:var(--amber)]/20 text-[color:var(--amber-deep)]"><Mail className="h-5 w-5" /></span>
+            <div>
+              <div className="font-semibold">E-posta</div>
+              <a href={`mailto:${MAIL}`} className="text-muted-foreground hover:text-foreground">{MAIL}</a>
+            </div>
+          </div>
           <div className="mt-10 grid gap-3 sm:grid-cols-2">
             <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--ink)] px-5 py-3.5 text-sm font-semibold text-[color:var(--cream)] hover:bg-[color:var(--amber-deep)]"><Phone className="h-4 w-4" /> Hemen Ara</a>
             <a href={MAPS_URL} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-full border border-border px-5 py-3.5 text-sm font-semibold hover:bg-secondary"><Navigation className="h-4 w-4" /> Yol Tarifi Al</a>
@@ -523,12 +554,12 @@ function CTA() {
         <div className="absolute -right-20 -top-20 h-80 w-80 rounded-full bg-white/15 blur-3xl" />
         <div className="relative grid items-center gap-10 lg:grid-cols-[1.4fr_1fr]">
           <div>
-            <span className="text-xs uppercase tracking-[0.3em] text-white/80">Hızlı Teklif</span>
+            <span className="text-xs uppercase tracking-[0.3em] text-white/80">Randevu & Teklif</span>
             <h2 className="mt-4 font-sans text-4xl font-bold leading-[1.05] text-[color:var(--ink)] sm:text-5xl lg:text-6xl">
               Projenizi anlatın,<br />
-              <span className="font-serif italic">aynı gün</span> içinde teklif gelsin.
+              <span className="font-serif italic">aynı gün</span> teklif alın.
             </h2>
-            <p className="mt-5 max-w-lg text-lg text-[color:var(--ink)]/80">Ücretsiz keşif görüşmesi yapıyor, sahaya çıkmadan önce net bir fiyat ve takvim sunuyoruz.</p>
+            <p className="mt-5 max-w-lg text-lg text-[color:var(--ink)]/80">Keşif görüşmesi yapıyor, sahaya çıkmadan önce net bir fiyat ve takvim sunuyoruz. İlk görüşmeden sonra karar verebilirsiniz.</p>
           </div>
           <div className="flex flex-col gap-3">
             <a href={`tel:${PHONE_TEL}`} className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--ink)] px-6 py-4 text-base font-semibold text-[color:var(--cream)] shadow-xl hover:bg-black"><Phone className="h-5 w-5" /> {PHONE}</a>
@@ -558,6 +589,7 @@ function Footer() {
             <li className="flex items-start gap-3"><Phone className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--amber)]" /><a href={`tel:${PHONE_TEL}`} className="hover:text-[color:var(--amber)]">{PHONE}</a></li>
             <li className="flex items-start gap-3"><MapPin className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--amber)]" /><a href={MAPS_URL} target="_blank" rel="noreferrer" className="hover:text-[color:var(--amber)]">{ADDRESS}</a></li>
             <li className="flex items-start gap-3"><Instagram className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--amber)]" /><a href={INSTAGRAM_URL} target="_blank" rel="noreferrer" className="hover:text-[color:var(--amber)]">@fubayharita</a></li>
+            <li className="flex items-start gap-3"><Mail className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--amber)]" /><a href={`mailto:${MAIL}`} className="hover:text-[color:var(--amber)]">{MAIL}</a></li>
             <li className="flex items-start gap-3"><Clock className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--amber)]" /><span>Hafta içi 09:00 – 18:30</span></li>
           </ul>
         </div>
